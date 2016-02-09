@@ -4,7 +4,6 @@ import pickle
 class Settings:
 	# name, master/slave, number of clients, ipaddress, video path, load time 
 	def __init__(self):
-		print "init"
 		self.SETTINGS_LIST = ['noname','False','0','192.168.2.200','video/test.mov','0.0'];
 		
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #settings container class
 import sl_settings
 #for everything

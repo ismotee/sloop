@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sl_settings
 import os
 
