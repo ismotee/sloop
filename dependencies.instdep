@@ -1,0 +1,31 @@
+# use instdep to install dependencies
+
+=pip
++install
+alabaster
+babel
+decorator
+docutils
+jinja2
+markupsafe
+mock
+nose
+nose-parameterized
+pockets
+pygments
+pytz
+six
+snowballstemmer
+sphinx
+sphinx-rtd-theme
+sphinxcontrib-napoleon
+
+=../git
++clone
+https://github.com/willprice/python-omxplayer-wrapper
+
+#setting up python omxplayer wrapper
+=../python-omxplayer-wrapper/python
++setup.py
+install
+
