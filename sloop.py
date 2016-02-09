@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	ip_setup = dynamic_ip()
 	ip_setup.set(settings.get("ip_address"))
 	
-	plr = OMXPlayer(settings.get("file_name"))
+	plr = OMXPlayer(settings.get("file_name"),["--blank","--no-osd"])
 
 	if settings.get("ismaster") == "True":
 		if ip_setup.waitForConnections(settings.get("num_clients")):
