@@ -24,19 +24,10 @@ sphinxcontrib-napoleon
 +clone
 https://github.com/willprice/python-omxplayer-wrapper
 
-#
-=cd
-omx-player-wrapper
-
 #setting up python omxplayer wrapper
 =python
+@python-omxplayer-wrapper/
 +setup.py
 install
 
-=cd
-..
-
-=rm
-+-r
-python-omxplayer-wrapper
 
