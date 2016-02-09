@@ -38,17 +38,20 @@ if __name__ == "__main__":
 	plr.play()
 	
 	while True:
-		if settings.get("ismaster") == "False":
-			ip_setup.waitForStartSignal()
-			plr.set_position(0)
-		elif settings.get("ismaster") == "True":
-			sleep(plr.duration() - 1.0)
-			#sleep(6)
-			ip_setup.sendStartSignal()
-			plr.set_position(0)
-
-	ip_setup.closeConnection()
-
+		try:
+			if settings.get("ismaster") == "False":
+				ip_setup.waitForStartSignal()
+				plr.set_position(0)
+			elif settings.get("ismaster") == "True":
+				sleep(plr.duration() - 1.0)
+				#sleep(6)
+				ip_setup.sendStartSignal()
+				plr.set_position(0)
+		except KeyboardInterrupt:
+			print "interrupted!"
+			ip_setup.closeConnection()
+			ip_setup.setOldIp()
+			break
 	#plr.stop()
 
 	ip_setup.setOldIp()
