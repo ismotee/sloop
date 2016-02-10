@@ -15,7 +15,7 @@ class dynamic_ip:
 	s = None
 
 	def __init__(self):
-		self.old_ip = subprocess.check_output(["./get_ip.sh"])
+		self.old_ip = subprocess.check_output(["get_ip.sh"])
 		self.old_ip = self.old_ip.strip()
 		self.current_ip = self.old_ip
 		
@@ -29,16 +29,16 @@ class dynamic_ip:
 		if ip_address == self.current_ip:
 			return True
 
-		answer = subprocess.check_output(["./is_ip_reserved.sh", str(ip_address)])
+		answer = subprocess.check_output(["is_ip_reserved.sh", str(ip_address)])
 		if not answer:
-			subprocess.call(["./set_ip.sh", str(ip_address)])
+			subprocess.call(["set_ip.sh", str(ip_address)])
 			self.current_ip = str(ip_address)
 			return True
 		else:
 			return False
 
 	def setOldIp (self):
-		subprocess.call(["./set_ip.sh", self.old_ip])
+		subprocess.call(["set_ip.sh", self.old_ip])
 		self.current_ip = self.old_ip
 
 ### functions for sloop player only:
