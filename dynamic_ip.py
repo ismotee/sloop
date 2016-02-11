@@ -75,7 +75,7 @@ class dynamic_ip:
 				ip.sendall("1")
 
 	def connectToServer (self):
-		self.HOST = self.current_ip
+		self.HOST = "192.168.2.100"
 		self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		self.s.connect((self.HOST,self.PORT))
 		self.s.sendall("ready")
