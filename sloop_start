@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import signal
+import sloop
+import sloop_setup
+
+class AlarmException(Exception):
+	pass
+
+def alarmHandler(signum, frame):
+	raise AlarmException
+
+def nonBlockingRawInput(prompt='', timeout=20):
+	signal.signal(signal.SIGALRM, alarmHandler)
+	signal.alarm(timeout)
+	try:
+		text = raw_input(prompt)
+		signal.alarm(0)
+		return 1
+	except AlarmException:
+		print ''
+		print "timeout running sloop player"
+	signal.signal(signal.SIGALRM,signal.SIG_IGN)
+	return 0
+
+answer = nonBlockingRawInput("press enter: sloop setup", 5)
+if answer == 0:
+	print "running sloop"
+	sloop.sloop()
+else:
+	print "running sloop setup"
+	sloop_setup.sloop_setup()
