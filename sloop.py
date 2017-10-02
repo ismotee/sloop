@@ -1,61 +1,47 @@
-#!/usr/bin/env python
-import sl_settings
-import os
-
+#!/usr/bin/python
+from sl_settings import Settings
+from sl_net import sl_net
 import time
-from time import sleep
-from omxplayer.player import OMXPlayer
-from dynamic_ip import dynamic_ip
+#from omxplayer.player import OMXPlayer
 
-class sloop:
+settings = Settings("settings")
+net = sl_net()
+#plr = OMXPlayer(settings.Get('path'),["--blank","--no-osd"])
 
-	def error (self,id):
-		error = {
-			1: "no sloop.config found. Run sloop-setup first.",
-		
-		}
-		print "error:", error.get(id, "no reason")
+#yhdistetaan
+# serveri
+settings.tell()
+if settings.Get('master'):
+	net.wait_for_clients(settings.Get('num_clients'),5005)
+#clientti
+else:
+	net.connect_as_client(settings.Get('master_name'),5005)
 
+#eka kierros
+if settings.Get('master'):
+	net.send('start')
+	print('plr.play()')
+else:
+	msg = net.receive()
+	if(msg == 'start'):
+		print('plr.play()')
 
-	def __init__(self):
-		#loading settings from setup.config
-		settings = sl_settings.Settings()
-		if not settings.load():
-			error(1)
-
-		ip_setup = dynamic_ip()
-		ip_setup.set(settings.get("ip_address"))
-	
-		plr = OMXPlayer(settings.get("file_name"),["--blank","--no-osd"])
-
-		if settings.get("ismaster") == "True":
-			if ip_setup.waitForConnections(settings.get("num_clients")):
-				ip_setup.sendStartSignal()
+while True:
+	try:
+		if settings.Get('master'):
+			#time.sleep(plr.duration()-1.5)
+			time.sleep(10)			
+			net.send('restart')
+			print('plr.set_position(0)')
 		else:
-			ip_setup.connectToServer()
-			ip_setup.waitForStartSignal()
-			print "this function is not ready yet"
-			### TODO: error check 
-		#loop_time = plr.duration() - float(settings.get("load_time"))
-		plr.play()
-	
-		while True:
-			try:
-				if settings.get("ismaster") == "False":
-					ip_setup.waitForStartSignal()
-					plr.set_position(0)
-				elif settings.get("ismaster") == "True":
-					sleep(plr.duration() - 1.0)
-					#sleep(6)
-					ip_setup.sendStartSignal()
-					plr.set_position(0)
-			except KeyboardInterrupt:
-				print "interrupted!"
-				ip_setup.closeConnection()
-				ip_setup.setOldIp()
-				plr.stop()
-				plr.quit()
-				break
-		#plr.stop()
+			msg = net.receive()
+			if(msg == 'restart'):
+				print('plr.set_position(0)')
 
-		ip_setup.setOldIp()
+	except KeyboardInterrupt:
+		print "interrupted!"
+		net.close()
+		#plr.stop()
+		#plr.quit()
+		break
+			
